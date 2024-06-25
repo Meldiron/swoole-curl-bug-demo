@@ -1,4 +1,3 @@
-# Prepare generic compiler
 FROM php:8.0.18-cli-alpine3.15 as compile
 
 ENV PHP_SWOOLE_VERSION=v4.8.12
@@ -12,10 +11,9 @@ RUN \
   g++ \
   git \
   openssl-dev
-  
+
 RUN docker-php-ext-install sockets
 
-# Compile Swoole
 FROM compile AS swoole
 
 RUN \
@@ -26,8 +24,9 @@ RUN \
   make && make install && \
   cd ..
 
-# Executor
 FROM php:8.0.18-cli-alpine3.15 as final
+# This fixes the problem:
+# FROM phpswoole/swoole:4.8.12-php8.0-alpine as final
 
 RUN \
   apk update \
