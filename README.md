@@ -22,7 +22,8 @@ Keep this running in the background.
 ### 2. Run Swoole CURL client
 
 - Enter folder with Swoole app: `cd client`
-- Run client: `docker run --rm -it -v ./:/root -w /root -p 5000:5000 --network my-app phpswoole/swoole:4.8.12-php8.0-alpine sh -c "composer install --profile --ignore-platform-reqs && php index.php"`
+- Build docker image `docker build -t my-app-client .`
+- Run client: `docker run --rm -it -v ./:/root -w /root -p 5000:5000 --network my-app my-app-client sh -c "php http.php"`
 
 Now visit `localhost:5000/chunks`, this will trigger CURL request from Swoole server to Node server above. Var_dump should be done each chunk, so 3 times in total (in docker logs)
 
